@@ -177,3 +177,8 @@ Linq Query: var empDetails = dbContext.EmpDetails
 			     .ToList();
 This updated query gives 2 empdetails including departments.
 --------------------------------------------------------------------------------------------------------
+Question 9: Refactor the following query into simpler way
+Query: dbContext.Employees.Where(x=>x.Name.ToLower().Contains('sree').FirstOrDefaultAsync();
+
+Simpler way: dbContext.Employees.FirstOrDefaultAsync(x=>x.Name.ToLower().Contains('sree');
+--------------------------------------------------------------------------------------------------------
