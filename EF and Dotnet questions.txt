@@ -72,30 +72,108 @@ with 'using' after send email the object of SmtpClient dispose automatically.
 --------------------------------------------------------------------------------------------------------
 Question 4: Optmize and refactor the following query
 
-var listOfEmployees = dbContext.Employees.ToList();
-foreach(var emp in listOfEmployees)
+var departments= dbContext.Departments.ToList();
+foreach(var dept in departments)
 {
-    if(emp.IsRole == "Admin")
+    if(dept.Name == "IT")
     {
-	emp.DeptName = dbContext.Departments.FirstorDefault(x=>x.Id == emp.DeptId);
+	emp.DeptName = dbContext.Employees.FirstorDefault(x=>x.DeptIdd == dept.Id);
     }
 }
 
-Consider in emp table we have 10 records
-In that 10 IsRole == "Admin" have 5 records
+Consider in dept table we have 20 records
+In that Name == "IT" have 5 records
+So = 1 main query + 5 sub queries = 6 times
 
 Question: How many times the department query and other queries executes?
 Is there any way to optimize this?
 
-var listOfEmployees = dbContext.Employees.ToList();
-
+var departments= dbContext.Departments.ToList();
 // This approach might help if data is less to keep it in memory
-var deptDetails = dbContext.Departments.ToList();
-foreach(var emp in listOfEmployees)
+var empDetails = dbContext.Employees.ToList();
+foreach(var dept in departments)
 {
-    if(emp.IsRole == "Admin")
+    if(dept.Name == "IT")
     {
-	emp.DeptName = deptDetails.FirstorDefault(x=>x.Id == emp.DeptId);
+	emp.DeptName = empDetails.FirstorDefault(x=>x.DeptIdd == dept.Id);
     }
 }
+
+To further improve from 2 queries to 1 query
+var listOfEmployees = dbContext.Departments.Include(e=>e.Employees).ToList();
+Note: Adjust the foreach
+--------------------------------------------------------------------------------------------------------
+Question 5: I want to update the record insted it creates a new entry. What could be the reason?
+
+Model:
+public class EmployeeDto {
+  public int Id {get; set;}
+  public string Name {get; set;}
+}
+
+In Api,
+[HttpPost]
+public async Task UpdateEmployeeAsync(EmployeeDto empDto)
+{
+   // Assume we inject DB Context at Constructor
+   _db.Employees.Update(empDto); // This statement our expectation is to update but it's insert
+   _db.SaveChangesAsync();
+}
+
+Give me what is the reason behind here?
+Solution: In EmpDto, if you are not passing Id then EF Core treats this record as new entry and created it.
+
+To avoid
+In Api,
+[HttpPost]
+public async Task UpdateEmployeeAsync(EmployeeDto empDto)
+{
+   // Assume we inject DB Context at Constructor
+   if(empDto is not null && empDto.Id > 0){
+      _db.Employees.Update(empDto); // This statement our expectation is to update but it's insert
+      _db.SaveChangesAsync();
+   }
+}
+--------------------------------------------------------------------------------------------------------
+Question 6: Refactor the following statement in simpler and better way.
+Input:
+var name = "nani";
+var desig ="lead";
+var org = "kanini";
+var greetings = string.Format("Welcome {0}, Happy to announce you are {1} associate in {2} organization", name, desig, org);
+
+Refactored solution:
+var greetings = $"Welcome {name}, Happy to announce you are {desig} associate in {org} organization";
+This simplifies the line and prevent error from mis-indexing.
+--------------------------------------------------------------------------------------------------------
+Question 7: What problems we get when we use == over is operator ?
+
+Input:
+
+if(empDetails == null) vs if(empDetails is null)
+
+Problem with == is we can override operator and write our custom logic
+but with 'is' operator we cannot do that
+
+Preferable solution is use "is null" instead of "=="
+Both operates serve the same functionality.
+--------------------------------------------------------------------------------------------------------
+Question 8: Find what is the wrong in this linq query
+
+Expected output: Fetch 2 records
+
+Linq Query: var empDetails = dbContext.EmpDetails
+			     .Include(d=>d.Departments)
+                             .OrderBy(e=>e.Id)
+			     .ToList()
+			     .Take(2);
+What is the output of Sql query and how many results this query gives?
+
+Answer: It doesn't consider the Take(2) itself
+Linq Query: var empDetails = dbContext.EmpDetails
+			     .Include(d=>d.Departments)
+                             .OrderBy(e=>e.Id)
+			     .Take(2)
+			     .ToList();
+This updated query gives 2 empdetails including departments.
 --------------------------------------------------------------------------------------------------------
