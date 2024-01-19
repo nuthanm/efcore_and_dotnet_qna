@@ -1,2 +1,10 @@
-# csharp_and_efcore_Practical_Issues_with_Answers
-Provides a solution for every question for .net and ef issues.
+# Csharp and EfCore - Real-time mistakes with solutions
+
+We provide a list of questions with solutions based on the following tech stack:
+
+- Language: C#
+- Framework: .NET Core
+- ORM: EF Core
+- Query Framework: Linq
+
+This is just the first step, and we're excited to see where it goes! Keep an eye out for future updates.
