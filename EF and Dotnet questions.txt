@@ -1,0 +1,43 @@
+Question 1: Handle null reference exception when return type is IEnumerable
+
+Return type: IEnumerable<Employee>
+public IEnumerable<Employee> GetEmployeeAsync(string eName)
+{
+	
+	if(string.IsNullOrEmpty(eName))
+        {
+	   return null;
+	}
+        
+        /*
+	   If eName is not null then get the records and send Employee details
+	*/
+}
+
+In UI, If user pass null or empty to eName then issue occurs at this line: empObject.Count()
+
+To avoid this and works without issues,
+
+return Enumerable.Empty<Employee>();
+--------------------------------------------------------------------------------------------------------
+
+Question 2: User-Unhandled - System.ArgumentNullReferenceException: "Value cannot be null. (Parameter: 'entity')
+
+Issue: Delete a record from a table using following code but again you pass same id to delete.
+When you try this you get this error.
+
+var employee = db.Employee.FirstOrDefault(x=>x.id)
+db.Employees.Remove(employee); // Issue comes at this place
+db.SaveChanges();
+return view(nameof(Index)); // Redirect to index page
+
+Solution:
+
+var employee = db.Employee.FirstOrDefault(x=>x.id)
+if(employee != null)
+{
+	db.Employees.Remove(employee);
+	db.SaveChanges();
+}
+return view(nameof(Index)); // Redirect to index page
+--------------------------------------------------------------------------------------------------------
