@@ -16,6 +16,7 @@ public IEnumerable<Employee> GetEmployeeAsync(string eName)
 
 In UI, If user pass null or empty to eName then issue occurs at this line: empObject.Count()
 
+Solution:
 To avoid this and works without issues,
 
 return Enumerable.Empty<Employee>();
@@ -36,8 +37,65 @@ Solution:
 var employee = db.Employee.FirstOrDefault(x=>x.id)
 if(employee != null)
 {
-	db.Employees.Remove(employee);
-	db.SaveChanges();
+   db.Employees.Remove(employee);
+   db.SaveChanges();
 }
 return view(nameof(Index)); // Redirect to index page
+--------------------------------------------------------------------------------------------------------
+Question 3: How do we refactor the following code and what probelm it solves after refactor?
+
+Program Snippet:
+public class MailService
+{
+   private SmtpService smtpClient;
+   public void SendMail(string receipents, string subject, string requestBody)
+   {
+	var client = new SmtpClient("smtp.example.com");
+        client.Send(new MailMessage("<from>",receipents, subject, requestBody));
+   }
+}
+
+Refactored:
+public class MailService
+{
+   private SmtpService smtpClient;
+   public void SendMail(string receipents, string subject, string requestBody)
+   {
+	using (var client = new SmtpClient("smtp.example.com"))
+        {
+	   client.Send(new MailMessage("<from>",receipents, subject, requestBody));
+	}
+   }
+}
+
+with 'using' after send email the object of SmtpClient dispose automatically.
+--------------------------------------------------------------------------------------------------------
+Question 4: Optmize and refactor the following query
+
+var listOfEmployees = dbContext.Employees.ToList();
+foreach(var emp in listOfEmployees)
+{
+    if(emp.IsRole == "Admin")
+    {
+	emp.DeptName = dbContext.Departments.FirstorDefault(x=>x.Id == emp.DeptId);
+    }
+}
+
+Consider in emp table we have 10 records
+In that 10 IsRole == "Admin" have 5 records
+
+Question: How many times the department query and other queries executes?
+Is there any way to optimize this?
+
+var listOfEmployees = dbContext.Employees.ToList();
+
+// This approach might help if data is less to keep it in memory
+var deptDetails = dbContext.Departments.ToList();
+foreach(var emp in listOfEmployees)
+{
+    if(emp.IsRole == "Admin")
+    {
+	emp.DeptName = deptDetails.FirstorDefault(x=>x.Id == emp.DeptId);
+    }
+}
 --------------------------------------------------------------------------------------------------------
