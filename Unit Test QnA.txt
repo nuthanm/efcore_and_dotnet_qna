@@ -1,0 +1,72 @@
+Question 1: You have a code implemented now you have to test this whether it's working correctly or not.
+What are all the ways you followed to test this code?
+Which option is best?
+
+1. Code deploy and direct test from UI
+
+2. If it is web API, Test using swagger or Postman
+
+3. Write unit tests using one of the popular framework and cover all the possiblities - Best option
+
+Reason: With Unit tests, we can cover multiple test inputs and make sure our code is working efficiently with all types of inputs.
+It also saves a lot of time in terms 
+  - Avoid multiple PR's , 
+  - Avoid multiple times deployment after every fix
+  - Time we save a lot
+--------------------------------------------------------------------------------------------------------
+Question 2: What is the reason behind when we are creating a test class in plural?
+Ex: EmployeeTests instead of EmployeeTest
+
+Answer: We are going to create multiple test cases in one class
+--------------------------------------------------------------------------------------------------------
+Question 3: Acronymn for AAA
+
+Option 1: Arrange, Act and Assert - Correct Answer
+
+Option 2: Arranged, Action and Assertion
+
+Option 3: Arrange, Act and Assertion
+
+Option 4: Arrange, Actual and Assert
+
+--------------------------------------------------------------------------------------------------------
+Question 4: What is the purpose of Arrange?
+
+Answer: Initialization, declare the objects, setup
+--------------------------------------------------------------------------------------------------------
+Question 5: What is the purpose of Act?
+
+Answer: Call your actual methods
+--------------------------------------------------------------------------------------------------------
+Question 6: What is the purpose of Assert?
+
+Answer: To check the actual value from ACT with expected value
+--------------------------------------------------------------------------------------------------------
+Question 7: In Assert.AreEqual(______,______). Fill the values
+
+Option 1: Actual value, Expected Value
+
+Option 2: Expected value, Actual Value - Correct Answer
+--------------------------------------------------------------------------------------------------------
+Question 8: Can i combine all Arrange, Act in Assert?
+
+Answer: Yes - If you don't need any input for your calling method then you write directly in assert 
+        Ex: If you want to throw then use Assert.ThrowException() there you combine your ACT into Assert.
+--------------------------------------------------------------------------------------------------------
+Question 9: Find what is the wrong in the following code
+
+public class EmployeeTests
+{
+    [TestMethod]
+    public void AddEmployee_EmpObj_NoResult()
+    {
+	// Add your code here - AAA        
+    }
+}
+
+
+Answer: Missed [TestClass] attribute at class level
+--------------------------------------------------------------------------------------------------------
+
+
+
