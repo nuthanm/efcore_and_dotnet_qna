@@ -177,3 +177,90 @@ Option 3 : TestCase - Correct Answer
 
 Option 4 : TestCases
 --------------------------------------------------------------------------------------------------------
+Question 16: Replace placeholders with correct values in the following code
+
+Code:
+
+[TestFixture]
+public class EmployeeTests
+{
+    [Test]
+    [__________(10, __________ = false)]
+    [__________(12, __________ = true)]
+    public _______ IsOdd_WithSingleValue_ReturnTrueIfOdd(int a)
+    {
+          // Object Initliazation
+          MathCalc obj = new();
+
+          _____ obj.IsOddChecker(a);
+    }
+}
+
+Option 1 : MultiInput, ExpectedResults, bool, return
+
+Option 2 : TestInputs, ExpectedValue, void, variable assignment
+
+Option 3 : TestCase, ExpectedResult, bool, return - Correct Answer
+
+Option 4 : TestCases, ExpectedResults, bool, return
+--------------------------------------------------------------------------------------------------------
+Question 17: What is the output of this unit test case?
+input: nuthan, Murarysetty
+
+Code:
+
+[TestFixture]
+public class EmployeeTests
+{
+    [Test]
+    public void CombineEmployeeName_InputTwoStrings_ReturnGreeting(string fName, string lName)
+    {
+          // Object Initliazation
+          Employee obj = new();
+
+	 var fullName = obj.GetFullName(fName, lName);
+
+         Assert.That(fullName, Is.EqualTo("Hello, Nuthan Murarysetty");
+         Assert.That(fullName, Does.Contain("nuthan Murarysetty"));
+    }
+}
+
+
+Option 1: Test case pass
+
+Option 2: Test case fail - Yes because Contain is case-sensitive to fix the test case issue
+Assert.That(fullName, Does.Contain("nuthan Murarysetty").IgnoreCase);
+
+--------------------------------------------------------------------------------------------------------
+Question 18: Is it possible to test the test case using Regular Expression using Nunit?
+
+Input: Hello, Nuthan Murarysetty
+
+[A-Z]{1} => First letter is capital
+[a-z]+ => Any number of characters
+
+Assert.That(fullName, Does.Match("Hello, [A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+"));
+Answer: Yes
+--------------------------------------------------------------------------------------------------------
+Question 19: Write a test case to test using regular expression in Nunit framework?
+input: nuthan, Murarysetty
+Expected Output: Hello, nuthan murarysetty
+
+Code:
+
+[TestFixture]
+public class EmployeeTests
+{
+    [Test]
+    public void CombineEmployeeName_InputTwoStrings_ReturnGreeting(string fName, string lName)
+    {
+          // Object Initliazation
+          Employee obj = new();
+
+	 var fullName = obj.GetFullName(fName, lName);
+
+	 Assert.That(fullName, Does.Match("Hello, [a-z]+ [a-z]+"));
+    }
+}
+--------------------------------------------------------------------------------------------------------
+Question 20: 
