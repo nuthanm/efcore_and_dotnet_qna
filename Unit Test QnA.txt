@@ -67,6 +67,113 @@ public class EmployeeTests
 
 Answer: Missed [TestClass] attribute at class level
 --------------------------------------------------------------------------------------------------------
+Question 10: What are the pre-requisites to start writing unit tests with any test framework?
+
+We need all these Nuget packages to run and test the unit test files using Nunit test framework
+
+Nuget Package(s):
+1. Nunit
+2. Nunit3TestAdapter( To tests using Text Explore) and 
+3. Microsoft.NET.Test.Sdk
+--------------------------------------------------------------------------------------------------------
+Question 11: The following code is from which unit test framework
+
+Code:
+
+[TestClass]
+public class EmployeeTests
+{
+    [TestMethod]
+    public void AddEmployee_EmpObj_NoResult()
+    {
+	// Add your code here - AAA        
+    }
+}
+
+Option 1: Nunit
+
+Option 2: MsTest - Correct Answer
+
+Option 3: XUnit
+--------------------------------------------------------------------------------------------------------
+Question 12: The following code is from which unit test framework
+
+Code:
+
+[TestFixture]
+public class EmployeeTests
+{
+    [Test]
+    public void AddEmployee_EmpObj_NoResult()
+    {
+	// Add your code here - AAA        
+    }
+}
+
+Option 1: Nunit - Correct Answer
+
+Option 2: MsTest 
+
+Option 3: XUnit
+--------------------------------------------------------------------------------------------------------
+Question 13: The following code is from which unit test framework
+
+Code:
+
+public class EmployeeTests
+{
+    [Fact]
+    public void AddEmployee_EmpObj_NoResult()
+    {
+	// Add your code here - AAA        
+    }
+}
+
+Option 1: Nunit
+
+Option 2: MsTest 
+
+Option 3: XUnit - Correct Answer
+--------------------------------------------------------------------------------------------------------
+Question 14: In the following code, Both asserts are correct?
+
+Framework: Nunit
+Code:
+bool isOdd = calc.IsOddChecker(10);
+
+Assert.That(IsOdd, Is.EqualTo(false));
+Assert.IsFalse(IsOdd);
+
+Option 1: Assert.That Only
+
+Option 2: Assert.IsFalse only
+
+Option 3: Neither 1 or 2
+
+Option 4: Both 1 and 2 - Correct Answer
+--------------------------------------------------------------------------------------------------------
+Question 15: How to pass multiple values to one test case to test the functionality in Nunit?
+Replace ____________ with actual name
+Code:
+
+[TestFixture]
+public class EmployeeTests
+{
+    [Test]
+    [__________(10)]
+    [__________(12)]
+    public void IsOdd_WithSingleValue_ReturnTrue(int a)
+    {
+	// Add your code here - AAA        
+    }
+}
 
 
+Option 1 : MultiInput
 
+Option 2 : TestInputs
+
+Option 3 : TestCase - Correct Answer
+
+Option 4 : TestCases
+--------------------------------------------------------------------------------------------------------
