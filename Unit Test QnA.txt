@@ -263,4 +263,54 @@ public class EmployeeTests
     }
 }
 --------------------------------------------------------------------------------------------------------
-Question 20: 
+Question 20: Employee Object creation is repeated in all the test cases but i want to initialize once and access in all test cases. How do we achieve?
+
+Solution:
+Code:
+private Employee empObject;
+
+[Setup]
+public void InitializeObjects()
+{
+    empObject = new Employee();
+}
+
+[Test]
+public void CombineEmployeeName_InputTwoStrings_ReturnGreeting(string fName, string lName)
+{
+	 var fullName = empObject.GetFullName(fName, lName);
+
+	 Assert.That(fullName, Does.Match("Hello, [a-z]+ [a-z]+"));
+}
+--------------------------------------------------------------------------------------------------------
+Question 21: Difference between Is.EqualTo vs Is.EquivalentTo in Nunit?
+
+Answer: When your method returns collection then use 
+Assert.That(listResult, Is.EquivalentTo(expectedListResult));
+
+When your method returns single value or object then use
+Assert.That(strName, Is.EqualTo(expectedName));
+--------------------------------------------------------------------------------------------------------
+Question 22: How to check return list is an empty or not?
+
+Answer: Assert.That(listResult, Is.Not.Empty);
+        Assert.IsNotNull(listResult);
+--------------------------------------------------------------------------------------------------------
+Question 23: How to check certain value is available or not in a list?
+
+Answer: Assert.That(listResult, Does.Contain(7));
+        Assert.Contains(7, listResult);
+--------------------------------------------------------------------------------------------------------
+Question 24: How to check given number should not be available in a list?
+
+Answer: Assert.That(listResult, Has.No.Member(6));
+--------------------------------------------------------------------------------------------------------
+Question 25: How to check return list is in ordered or not?
+
+Answer: Assert.That(listResult, Is.Ordered); => For ascending
+	Assert.That(listResult, Is.Ordered.Descending); => For Desc
+--------------------------------------------------------------------------------------------------------
+Question 26: How to check list items should not be duplicate?
+
+Answer: Assert.That(listResult, Is.Unique);
+--------------------------------------------------------------------------------------------------------
