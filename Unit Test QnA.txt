@@ -314,3 +314,49 @@ Question 26: How to check list items should not be duplicate?
 
 Answer: Assert.That(listResult, Is.Unique);
 --------------------------------------------------------------------------------------------------------
+Question 27: Consider i am having multiple assert statements in a unit test case. But in first assert is failed and it stopped to execute the next assert. 
+I want to execute all asserts and consolidate all the asserts with exceptions.
+
+Do we have any option to achieve in unit test?
+
+Answer: Yes,
+
+Assert.Multiple(() => {
+	Assert.That(listResult, Is.Ordered); 
+	Assert.That(listResult, Does.Contain(7));
+});
+--------------------------------------------------------------------------------------------------------
+Question 28: How to cover test case for an exception thrown in the code?
+
+Actual Implementation Code:
+
+public void GetEmployeeNameDetails(string fName, string lName)'
+{
+	if(string.IsNullOrEmpty(fName))
+	{
+	    throw new ArgumentException("FirstName is empty");
+	}
+     
+        // Continue the logic
+}
+
+TestCase:
+
+public void GetEmployeeName_InputFNameEmpty_ReturnException()
+{
+    // Classic way
+    var exceptionDetails = Assert.Throws<ArgumentException>(() => empObject.GetEmployeeNameDetails("","m"));
+    Assert.AreEqual("FirstName is empty", exceptionDetails.Message);
+
+    //Using Nunit
+    Assert.That(()=> empObject.GetEmployeeNameDetails("","m"),
+		     Throws.ArgumentException.With.Message.EqualTo("FirstName is empty"));
+
+}
+--------------------------------------------------------------------------------------------------------
+Question 29: How to check the type using Assert in Nunit?
+
+Your code return type is type of object
+
+Answer: Assert.That(yourActResult, is.TypeOf<YourExpectedType>());
+--------------------------------------------------------------------------------------------------------
