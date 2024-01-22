@@ -360,3 +360,76 @@ Your code return type is type of object
 
 Answer: Assert.That(yourActResult, is.TypeOf<YourExpectedType>());
 --------------------------------------------------------------------------------------------------------
+Question 30: Refactor the following code using MOQ?
+
+[Setup]
+public void SetUp()
+{
+   employeeObj = new(new LogFake());
+}
+
+Inside this LogFake we have a definition but there is no logic and the reason is we don't want to perform actual logic in unit test.
+
+How do you fix the above code using MOQ?
+
+Answer: 
+This is in general not a 
+private Mock<ILogFake> logMock;
+
+[Setup]
+public void SetUp()
+{
+   logMock = new Mock<ILogFake>();
+   employeeObj = new(logMock.Object);
+}
+
+logMock.Object => This gives instance of the object
+--------------------------------------------------------------------------------------------------------
+Question 31: Is it possible to write conditional setup using MOQ?
+
+Answer: Yes
+
+empObj.Setup(e => e.GetEmployeeDetails(It.IsAny<int>(index => index >0))).Returns(true);
+
+Meaning of this: If you pass testcase as <0 then it returns false and your test case fails.
+--------------------------------------------------------------------------------------------------------
+Question 32: Please write an assert for the following test method
+
+Code:
+
+// Arrange
+string greetMessage = "Hello, ";
+empObject.Setup(e => e.GetEmployee(It.IsAny<string>(), It.IsAny<string>())
+         .Callback((string fName, string lName) =>  $"{greetMessage} {fName} {lName});
+
+// Act
+empObject.GetEmployee("Nuthan", "M");
+
+// Assert
+
+--------------------------------------------- => Fill this area
+
+Answer:
+Assert.That(greetMessage, Is.EqualTo("Hello, Nuthan M");
+--------------------------------------------------------------------------------------------------------
+Question 33: Fill up the the missed fields in the following code
+
+Code:
+
+[........]
+[........(10)]
+public void GetEmployee_InputInt_ReturnString(int empId)
+{
+   // Add your code
+
+   Assert.______(expectedString, actualString);
+}
+
+Option 1: Fact, InputData, AreEqual
+
+Option 2: Fact, InlineData, Equal
+
+Option 3: Fact, InlineData, AreEqual
+
+Option 4: Theory, InlineData, Equal   => Correct Answer
+--------------------------------------------------------------------------------------------------------
