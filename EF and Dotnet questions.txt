@@ -271,3 +271,59 @@ dbContext.Employee.Skip(0).Take(30);
 For page 2 get next 30 records
 dbContext.Employee.Skip(30).Take(30);
 --------------------------------------------------------------------------------------------------------
+Question 18: How to set primary key column in Model entity class?
+
+Input:
+
+public class Employee {
+
+   public int Id {get; set;}
+   public string Fname {get; set;}
+   public string Lname {get; set;}
+}
+
+If you apply migration to this model what will be the output?
+
+Answer: No issues and migration success because in EF if you give Id it treats that column as a primary key.
+
+public class Employee {
+
+   public int EmployeeId {get; set;}
+   public string Fname {get; set;}
+   public string Lname {get; set;}
+}
+
+If you apply migration to this model what will be the output?
+
+Answer: No issues and migration success because in EF if you give <ClassName>Id it treats that column as a primary key.
+
+public class Employee {
+
+   public int IdEmployee {get; set;}
+   public string Fname {get; set;}
+   public string Lname {get; set;}
+}
+
+Answer: The Entity type 'Employee' requires a primary key to be defined. If you intended to use a keyless entity type then call 'HasNoKey' in 'OnModelCreating'.
+
+Answer: Now explicity set 
+public class Employee {
+
+   [Key]
+   public int IdEmployee {get; set;}
+   public string Fname {get; set;}
+   public string Lname {get; set;}
+}
+--------------------------------------------------------------------------------------------------------
+Question 19: What are the commands involved when we apply migration?
+
+Answer:
+Add-Migration <MigrationName>
+ - This creates a migration class which contains two override methods
+   - Up => Contains all the code needs to execute
+   - Down => Contains all the code to revert if in case any issues while performing update into database.
+Remove-Migration
+ - This removes current migration
+Update-DataBase
+ - Applies the current migration into database
+--------------------------------------------------------------------------------------------------------
