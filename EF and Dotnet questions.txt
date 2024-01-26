@@ -182,3 +182,92 @@ Query: dbContext.Employees.Where(x=>x.Name.ToLower().Contains('sree').FirstOrDef
 
 Simpler way: dbContext.Employees.FirstOrDefaultAsync(x=>x.Name.ToLower().Contains('sree');
 --------------------------------------------------------------------------------------------------------
+Question 10: In new EF Core project, after i execute we were able to see the records but i would like to know what is the query behind. How to configure this?
+
+Answer:
+UseSqlServer("<YourConnectionString>")
+.LogTo(Console.WriteLine);
+
+But we get lot of information in console but i want only commands
+UseSqlServer("")
+.LogTo(Console.WriteLine, new[] {DBLoggerCategory.Database.Command.Name});
+
+With this updated statement we see some less info in console but still i see debug, info many things
+UseSqlServer("")
+.LogTo(Console.WriteLine, new[] {DBLoggerCategory.Database.Command.Name}, LogLevel.Information);
+--------------------------------------------------------------------------------------------------------
+Question 11: How to get first record from a table?
+If table doesn't have any records then to handle the exception without throwing an error.
+
+Input: TableName: Employee
+
+Answer:
+var empData = dbContext.Employee.First();
+Throws: Sequence contains no elements error and it goes to catch
+
+var empData = dbContext.Employee.FirstOrDefault();
+This statement gives null by default if no record so we can handle it in directly it doesn't throw to catch.
+--------------------------------------------------------------------------------------------------------
+Question 12: Do you see any changes in sql query when we use First() or FirstOrDefault()?
+
+Answer: No, Both queries generates same sql query. Main difference is handling exception.
+--------------------------------------------------------------------------------------------------------
+Question 13: If i execute the following linq query i am getting following sql query
+Linq Query: dbContext.Employee.Where(x=>x.Name == null);
+Sql query : Select * from EMployee where 0 == 1
+Reason behind this:
+property of Name either
+public string Name {get; set;}
+
+or
+
+public string Name {get; set;} = string.Empty;
+
+To fix this issue
+
+public string? Name {get; set;}
+--------------------------------------------------------------------------------------------------------
+Question 13: Please find what is the output of the following query?
+var empObject = dbContext.Employee.Find(10);
+
+Answer: Get employeeDetails for 10 Id
+Note: Find works only on Primary key of the column
+--------------------------------------------------------------------------------------------------------
+Question 14: Does the following query generates a sql query?
+var empObject = dbContext.Employee.Find(10);
+
+Ans: No
+--------------------------------------------------------------------------------------------------------
+Question 15: When do we go for Single() over First()?
+If you know by default you get always one record then you go with Single()
+But issue with Single() is if your query contains more than one value returning then you get
+"Sequence contains more than one value" error.
+If you are not sure then go for First() irrespective of how many records query returns it takes only one.
+--------------------------------------------------------------------------------------------------------
+Question 16: Which query is the example for Deferred Execution?
+
+Query 1: var empDetails = dbContext.Employee;
+         foreach(var emp in empDetails)
+         {
+         }
+
+Query 2: var empDetailsList = dbContext.Employee.ToList();
+	 foreach(var emp in empDetailsList)
+         {
+         }
+
+Answer: Query 1
+Reason: Query execution actually happend in foreach
+Where as Query 2 execution happend at ToList()
+--------------------------------------------------------------------------------------------------------
+Question 17: Pagination using EFCore
+
+Skip(NumberofrecordsToSkip)
+Take(NumberofrecordstoFetch)
+
+Ex: For page 1 get 30 records
+dbContext.Employee.Skip(0).Take(30);
+
+For page 2 get next 30 records
+dbContext.Employee.Skip(30).Take(30);
+--------------------------------------------------------------------------------------------------------
