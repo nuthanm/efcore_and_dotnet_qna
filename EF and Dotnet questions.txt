@@ -327,3 +327,8 @@ Remove-Migration
 Update-DataBase
  - Applies the current migration into database
 --------------------------------------------------------------------------------------------------------
+Question 20: How to add PrimaryKey and IsRequired for a property using FluentAPI EF core?
+
+Ans: modelBuilder.Entity<Employee>().HasKey(p => p.Id);
+     modelBilder.Entity<Employee>().Property(p=>p.Name).IsRequired();
+--------------------------------------------------------------------------------------------------------
