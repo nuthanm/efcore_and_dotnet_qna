@@ -332,3 +332,39 @@ Question 20: How to add PrimaryKey and IsRequired for a property using FluentAPI
 Ans: modelBuilder.Entity<Employee>().HasKey(p => p.Id);
      modelBilder.Entity<Employee>().Property(p=>p.Name).IsRequired();
 --------------------------------------------------------------------------------------------------------
+Question 21: How to inject connectionstring in db context file?
+In API/MVC, First we place our connection string in 
+"ConnectionStrings":{
+  "DBConnection":"<SQL SERver connection String>"
+}
+
+In Program.Cs or Startup.cs,
+Register DB COntext:
+builder.Services.AddDbContext<YourDBContextFile>(options =>
+{
+   options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+});
+
+Note: GetConnectionString checks if any thing under "ConnectionStrings" section.
+
+Final Step is Inject this connectionString
+
+Create a constructor
+pubic YourDBContext(DbConextOptions<YourDbContext> options): base(options)
+{
+}
+--------------------------------------------------------------------------------------------------------
+Question 22: How to add seed data to an entity 
+Answer:
+Approach 1: In Migration File
+migrationBuilder.Sql("Insert Into <TableName>.....");
+migrationBuilder.Sql("Insert Into <TableName>.....");
+migrationBuilder.Sql("Insert Into <TableName>.....");
+
+Approach 2: Add it in DBContext file
+modelBuilder.Entity<YouEntity>().HasData(
+   new YourEntity {Name="Nani"},
+   new YourEntity {Name="Potti"},
+);
+--------------------------------------------------------------------------------------------------------
+Question 23: 
