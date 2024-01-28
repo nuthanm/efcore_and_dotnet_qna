@@ -367,4 +367,75 @@ modelBuilder.Entity<YouEntity>().HasData(
    new YourEntity {Name="Potti"},
 );
 --------------------------------------------------------------------------------------------------------
-Question 23: 
+Question 23: Optimize the following code
+
+Input:
+for(int i = 1;i<=5;i++)
+{
+   _dbContext.Departments.Add(new Department(Name= Guid.NewGuid().ToString());
+   _dbContext.SaveChanges();
+}
+
+Problem here is:
+5 times db call happen here and create individual insert statements.
+
+Optimized Query:
+for(int i = 1;i<=5;i++)
+{
+     _dbContext.Departments.Add(new Department(Name= Guid.NewGuid().ToString());
+}
+_dbContext.SaveChanges();
+This will use single Merge and perform at once instead of creating multiple queries
+--------------------------------------------------------------------------------------------------------
+Question 24: How do we perform Bulk Insert and Bulk Remove using EF Core?
+
+Optimized Query:
+List<Department> departments = new();
+for(int i = 1;i<=5;i++)
+{
+     departments.Add(new Department(Name= Guid.NewGuid().ToString());
+}
+_dbContext.Departments.AddRange(departments); // For add
+
+_dbContext.Departments.RemoveRange(departments); // For Delete
+_dbContext.SaveChanges();
+--------------------------------------------------------------------------------------------------------
+Question 25: Difference between Find() vs Explict loading vs Eager Loading in EF Core?
+Answer: 
+
+foreach(var obj in EmpDetails)
+{
+    // Approach 1: Ex: if we have 10 records then 10 times select query executes
+    obj.Departments = _dbContext.Find(obj.DepartmentId);
+    
+    // But this avoid 10 times when if department Id is duplicate then it stops calling db
+    // Ex: Department Id = 1 having 5 times in EmpDetails Object then with the following query
+       Executes 6 times only (Consider all other items are unique)
+    // Also reduces duplicate db calls
+
+    // Approach 2: Explicit Loading approach
+   _dbContext.Entry(obj).Reference(u=>u.Department).Load();  
+}
+
+Best one is Eager loading:
+_dbContext.Employee.Include(u=> u.Departments).ToList();
+This will give us one query with Inner join
+--------------------------------------------------------------------------------------------------------
+Question 26: Difference between IQueryable vs IEnumerable
+
+Answer: When we use IEnumerable then it gets all the records from entity and then we can apply any filters	but if it is big collection then performance issue will arise
+
+To fix this Iqueryable helps here, this will return data after apply the filter
+
+Examples:
+IEnumerable<Employees> empDetails = dbContext.Employee
+var filteredRecords = empDetails.Where(x=>x.Salary>5000).ToList();
+
+SQL Query:
+Select Id, Name, Salary, DeptId from Employee
+Select Id, Name, Salary, DeptId from Employee where Salary > 5000
+
+IQueryable<Employees> empDetails = dbContext.Employee
+var filteredRecords = empDetails.Where(x=>x.Salary>5000).ToList();
+Select Id, Name, Salary, DeptId from Employee where Salary > 5000
+--------------------------------------------------------------------------------------------------------
