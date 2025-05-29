@@ -1,4 +1,4 @@
-# Csharp and EfCore - Real-time mistakes with solutions
+# .NET (Csharp and EfCore) - Real-time mistakes with solutions
 
 We provide a list of questions with solutions based on the following tech stack:
 
