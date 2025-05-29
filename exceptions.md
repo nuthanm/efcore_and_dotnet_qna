@@ -1,4 +1,4 @@
-# Questions on how do we fix the exceptions while debugging or even from production
+# You can find exceptions and answers on how to fix.
 
 **Exception 1: Type of Exception: Resource**
 ```
